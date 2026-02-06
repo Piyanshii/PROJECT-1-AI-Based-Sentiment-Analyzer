@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI-Based Sentiment Analyzer</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="page">
+      <header class="header">
+        <div class="logo-circle">AI</div>
+        <div class="title-group">
+          <h1>AI-Based Sentiment Analyzer</h1>
+          <p>
+            Paste any text and let the model instantly detect whether the
+            sentiment is positive, negative, or neutral.
+          </p>
+        </div>
+      </header>
+
+      <main class="card">
+        <form method="POST" class="analyzer-form">
+          <label for="text" class="field-label">Input text</label>
+          <textarea
+            id="text"
+            name="text"
+            placeholder="Type or paste your text here..."
+            required
+          >{% if result %}{{ result.text }}{% endif %}</textarea>
+
+          <button type="submit" class="primary-button">
+            Analyze sentiment
+          </button>
+        </form>
+
+        {% if result %}
+        <section class="result">
+          <h2>Analysis</h2>
+          <div class="result-grid">
+            <div class="result-item">
+              <span class="result-label">Sentiment</span>
+              <span
+                class="sentiment-pill sentiment-{{ result.label | lower }}"
+              >
+                {{ result.label | capitalize }}
+              </span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Confidence</span>
+              <span class="result-value">{{ result.score }}%</span>
+            </div>
+          </div>
+
+          <div class="result-text-block">
+            <span class="result-label">Analyzed text</span>
+            <p class="result-text">"{{ result.text }}"</p>
+          </div>
+        </section>
+        {% endif %}
+      </main>
+    </div>
+  </body>
+</html>
